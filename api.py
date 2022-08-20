@@ -1,16 +1,25 @@
-from flask import  Flask,request,jsonify
-from flask_cors import CORS
-
+from flask import  Flask, request
+import base64
+import io
+from PIL import Image
 app=Flask(__name__)
-CORS(app)
 
 @app.route('/')
 def print_hi():
-    return 'hello!!'
+    rr = "123123"
+    print(123123)
+    return "acc"
+
+@app.route('/showImg', methods=['POST'])
+def process_json():
+    img = stringToImage(request.data)
+    img.show()
+    return request.data
 
 
-# 按间距中的绿色按钮以运行脚本。
+def stringToImage(base64_string):
+    imgdata = base64.b64decode(base64_string)
+    return Image.open(io.BytesIO(imgdata))
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=80,debug=True)
-
-# 访问 https://www.jetbrains.com/help/pycharm/ 获取 PyCharm 帮助
+    app.run(debug=True)
